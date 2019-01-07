@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Questioner</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li class="current"><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section id="showcase">
+        <div class="container">
+            <h1>Start a new Meetup</h1>
+            <p>We will help you find the right people to make it happen</p>
+        </div>
+    </section>
+
+    <form id="regForm" action="">
+        <h1></h1>
+
+        <div class="tab">Where is your meetups' group home town?
+            <p><input placeholder="Enter hometown..." oninput="this.className = ''"></p>
+        </div>
+
+        <div class="tab">What will your meetup be about?
+            <p><input placeholder="Search for a topic" oninput="this.className = ''"></p>
+        </div>
+
+        <div class="tab">What will your meetup's name be?
+            <p><input placeholder="example:Nairobi JS" oninput="this.className = ''"></p>
+            <div>Describe what your meet up will do and who should join
+                <p><input placeholder="" oninput="this.className = ''"></p>
+            </div>
+
+        </div>
+
+        <div class="tab">What it means to be a meetup:
+            <ul>
+                <li>Real, in-person conversations</li>
+                <li>Open and honest intentions</li>
+                <li>Always safe and respectful</li>
+                <li>Put your members first</li>
+            </ul>
+        </div>
+
+        <div style="overflow:auto;">
+            <div style="float:right;">
+                <button type="button" id="prevBtn" onClick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onClick="nextPrev(1)">Next</button>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+    </form>
+
+    <script>
+        var currentTab = 0;
+
+        showTab(currentTab);
+
+        function showTab(n) {
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+            }
+
+            if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").innerHTML = "Agree and continue";
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+            }
+            fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+            var x = document.getElementsByClassName("tab");
+
+            if (n == 1 && !validateForm()) return false;
+
+            x[currentTab].style.display = "none";
+
+            currentTab = currentTab + n;
+            if (currentTab >= x.length) {
+                document.getElementById("regForm").submit();
+                return false;
+            }
+
+            showTab(currentTab);
+        }
+
+        function validateForm() {
+            var x, y, i, valid = true;
+            x = document.getElementsByClassName("tab");
+            y = x[currentTab].getElementsByTagName("input");
+
+            for (i = 0; i < y.length; i++) {
+                if (y[i].value = "") {
+                    y[i].className += " invalid";
+                    valid = false;
+                }
+            }
+
+            if (valid) {
+                document.getElementsByClassName("step")[currentTab].className += " finish";
+            }
+            return valid;
+        }
+
+        function fixStepIndicator(n) {
+            var i, x = document.getElementsByClassName("step");
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+            }
+            x[n].className += " active";
+        }
+    </script>
+
+    <footer>
+        <p>Questioner Copyright &copy; 2019</p>
+    </footer>
+
+</body>
+
+</html>
